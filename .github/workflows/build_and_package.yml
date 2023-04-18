@@ -1,0 +1,25 @@
+name: Build and Package
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Package extension
+        run: |
+          mkdir -p packaged
+          zip -r packaged/twitter-hide-blue-ticks.zip . -x "*.git*" -x "node_modules/*" -x "packaged/*" -x ".github/*"
+
+      - name: Upload packaged extension
+        uses: actions/upload-artifact@v2
+        with:
+          name: twitter-hide-blue-ticks
+          path: packaged/twitter-hide-blue-ticks.zip
